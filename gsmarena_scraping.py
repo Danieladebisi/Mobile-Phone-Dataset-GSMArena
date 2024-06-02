@@ -66,23 +66,25 @@ class Gsmarena():
     # This function crawl mobile phones brands models links and return the list of the links.
     def crawl_phones_models(self, phone_brand_link):
         links = []
-        nav_link = []
-        soup = self.crawl_html_page(phone_brand_link)
-        nav_data = soup.find(class_='nav-pages')
-        if not nav_data:
-            nav_link.append(phone_brand_link)
-        else:
-            nav_link = nav_data.findAll('a')
-            nav_link = [link['href'] for link in nav_link]
-            nav_link.append(phone_brand_link)
-            nav_link.insert(0, nav_link.pop())
-        for link in nav_link:
-            soup = self.crawl_html_page(link)
-            data = soup.find(class_='section-body')
+    nav_link = []
+    soup = self.crawl_html_page(phone_brand_link)
+    nav_data = soup.find(class_='nav-pages')
+    if not nav_data:
+        nav_link.append(phone_brand_link)
+    else:
+        nav_link = nav_data.findAll('a')
+        nav_link = [link['href'] for link in nav_link]
+        nav_link.append(phone_brand_link)
+        nav_link.insert(0, nav_link.pop())
+    for link in nav_link:
+        soup = self.crawl_html_page(link)
+        # Check if data is None before accessing findAll
+        data = soup.find(class_='section-body')
+        if data:  # Only iterate if data is not None
             for line1 in data.findAll('a'):
                 links.append(line1['href'])
+    return links
 
-        return links
 
     # This function crawl mobile phones specification and return the list of the all devices list of single brand.
     def crawl_phones_models_specification(self, link, phone_brand):
