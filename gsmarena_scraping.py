@@ -4,6 +4,18 @@ import csv
 import os
 import time
 import json
+import os
+
+# Define the desired folder path for the dataset (modify if needed)
+dataset_folder_path = "GSMArenaDataset"
+
+# Check if the folder already exists
+if not os.path.exists(dataset_folder_path):
+    os.makedirs(dataset_folder_path)  # Create the folder if it doesn't exist
+    print(f"Folder Created: {dataset_folder_path}")
+else:
+    print(f"Folder Already Exists: {dataset_folder_path}")
+
 
 # Class gsmarena scrap the website phones models and its devices and save to csv file individually.
 class Gsmarena():
@@ -16,7 +28,9 @@ class Gsmarena():
         self.phones_brands = []
         self.url = 'https://www.gsmarena.com/' # GSMArena website url
         self.new_folder_name = 'GSMArenaDataset' # Folder name on which files going to save.
-        self.absolute_path = os.popen('pwd').read().strip() + '/' + self.new_folder_name  # It create the absolute path of the GSMArenaDataset folder.
+        # self.absolute_path = os.popen('pwd').read().strip() + '/' + self.new_folder_name  # It create the absolute path of the GSMArenaDataset folder.
+        # ... your existing code ...
+        self.absolute_path = os.getcwd() + '/' + self.new_folder_name  # Get current working directory
 
     # This function crawl the html code of the requested URL.
     def crawl_html_page(self, sub_url):
